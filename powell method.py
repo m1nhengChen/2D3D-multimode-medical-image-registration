@@ -57,17 +57,13 @@ def line_search_test(a, b, f0, xtol, image_fixed, ct, corner_pt, param, norm_fac
     return a
 
 
-# 获取区间一维搜索的区间，返回两个向量，即一维搜索的两个端点
 def get_line_bounds(start_parm, direction, down_bound, up_bound):
-    # 该代码有一种情况没有考虑，会出bug，即搜索方向刚好是边界的对角线
     # start_parm=np.array([-1,-0.5]),direction=np.array([2,4]),down_bound=np.array([-1,-1]),up_bound=np.array([1,1])
-    # 若要解决需要每次加入点就检查是否已经存在（不能直接用==，需要a-b<err）
     bound = [[], []]
 
-    # 交点个数，若flag==2，则两个点都找到了
     flag = 0
     for i in range(len(direction)):
-        #         print("第",i,"个参数")
+
         if abs(direction[i]) < 1e-5:
             continue
         # print(down_bound,start_parm)
@@ -182,14 +178,13 @@ def powell_search_double(down_bound, up_bound, start_parm, tol, xtol, image_fixe
         if abs(max_lambda) < 1e-5:
             print("Error updating direction vector")
             return f_val, pos
-        directions = res_directions  # 更新方向向量集
+        directions = res_directions
         if (abs(f_val_pre - f_val) < tol) or (iteration_count >= max_iterations):
             print("------------------------------------\nEnd of search")
             if (iteration_count == max_iterations):
                 print("Maximum number of iterations reached")
             break
 
-    # 返回最终函数值与变量值
     return f_val, pos
 
 
